@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UI.MovieActivity"
+    android:weightSum="100">
+
+
+    <ImageView
+        android:id="@+id/img_movie_poster"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:scaleType="centerCrop"
+        android:layout_margin="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txt_movie_title"
+        android:layout_width="280dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:padding="5dp"
+        android:textColor="#000"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img_movie_poster"
+        tools:text="Ad Astra" />
+
+    <ToggleButton
+        android:id="@+id/favourite_button"
+        android:textOff=""
+        android:textOn=""
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/button_effect"
+        app:layout_constraintBottom_toTopOf="@+id/txt_movie_title"
+        app:layout_constraintStart_toEndOf="@+id/txt_movie_title"
+        app:layout_constraintTop_toBottomOf="@+id/txt_movie_title" />
+
+
+
+    <TextView
+        android:id="@+id/txt_release_date"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:paddingLeft="5dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_movie_title"
+        tools:text="26/03/1984" />
+
+    <TextView
+        android:id="@+id/txt_average_rating"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintStart_toEndOf="@+id/txt_release_date"
+        app:layout_constraintTop_toBottomOf="@+id/txt_movie_title"
+        tools:text="8.20
+" />
+
+    <Button
+        android:id="@+id/trailers_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/watch_trailer_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/txt_average_rating"
+        app:layout_constraintTop_toBottomOf="@+id/txt_movie_title"
+        tools:text="Watch Trailer" />
+
+    <TextView
+        android:id="@+id/txt_plot_synopsis"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:padding="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_average_rating"
+        tools:text="The near future, a time when both hope and hardships drive humanity to look to the stars and beyond. While a mysterious phenomenon menaces to destroy life on planet Earth, astronaut Roy McBride undertakes a mission across the immensity of space and its many perils to uncover the truth about a lost expedition that decades before boldly faced emptiness and silence in search of the unknown." />
+
+    <Button
+        android:id="@+id/reviews_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+       android:text="@string/read_reviews_button"
+        tools:text="Read reviews"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_plot_synopsis" />
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

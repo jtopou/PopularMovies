@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="200dp">
+
+    <TextView
+        android:id="@+id/review_author"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="SWITCH" />
+
+    <TextView
+        android:id="@+id/review_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:padding="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/review_author"
+        tools:text="Ad Astra’ is about as art house as Hollywood cinema gets; disguising a metaphysical drama as an action-packed sci-fi adventure is a clever move for James Gray. While not perfect, it’s consistently entertaining whilst offering an introspective investigation on how parents influence their children. While a journey to the outer realms of our solar system, ‘Ad Astra’ is also an exploration of the human heart.\r\n- Charlie David Page\r\n\r\nRead Charlie's full article...\r\nhttps://www.maketheswitch.com.au/article/review-ad-astra-a-luscious-and-meticulous-space-drama" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

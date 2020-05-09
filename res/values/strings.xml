@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">PopularMovies</string>
+
+    <string name="sort_by_popular">Sort By Popular</string>
+    <string name="sort_by_rating">Sort By Rating</string>
+    <string name="favourite_movies_option">Favourite Movies</string>
+
+    <!-- Strings For Order-By Preference [CHAR LIMIT=30] -->
+    <string name="settings_order_by_label">Order By</string>
+    <string name="settings_order_by_key" translatable="false">order_by</string>
+    <string name="settings_order_by_default" translatable="false">@string/settings_order_by_popular_value</string>
+
+    <!-- Label for order-by popular option [CHAR LIMIT=20] -->
+    <string name="settings_order_by_popular_label">Popular</string>
+    <string name="settings_order_by_popular_value" translatable="false">popular</string>
+
+    <!-- Label for order-by most recent option [CHAR LIMIT=20] -->
+    <string name="settings_order_by_top_rated_label">Average Rating</string>
+    <string name="settings_order_by_top_rated_value" translatable="false">top_rated</string>
+
+    <string name="watch_trailer_button">Watch Trailer</string>
+    <string name="read_reviews_button">Read Reviews</string>
+
+</resources>
