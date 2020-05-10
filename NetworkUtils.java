@@ -69,15 +69,15 @@ public final class NetworkUtils {
 
             for (int i = 0; i < results.length(); i++) {
                 JSONObject arrayObject = results.getJSONObject(i);
-                String posterPath = arrayObject.getString("posterPath");
+                String posterPath = arrayObject.getString("poster_path");
                 posterPath = "http://image.tmdb.org/t/p/" + "w185" + posterPath;
 
                 String title = arrayObject.getString("title");
               //Get the double voteAverage and convert to String
-                double voteAverage = arrayObject.getDouble("voteAverage");
+                double voteAverage = arrayObject.getDouble("vote_average");
                 String voteAverageString = Double.toString(voteAverage);
 
-                String releaseDate = arrayObject.getString("releaseDate");
+                String releaseDate = arrayObject.getString("release_date");
                 String overview = arrayObject.getString("overview");
                 //Get the double voteAverage and convert to String
                 int movieID = arrayObject.getInt("id");
