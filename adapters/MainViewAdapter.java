@@ -58,19 +58,14 @@ public class MainViewAdapter extends RecyclerView.Adapter<MainViewAdapter.MyView
            public void onClick(View v) {
                Intent startMovieActivity = new Intent(mContext, MovieActivity.class);
 
-               startMovieActivity.putExtra("MoviePoster",mData.get(position).getPosterPath());
+               startMovieActivity.putExtra("MovieID",mData.get(position).getMovieID());
                startMovieActivity.putExtra("MovieTitle",mData.get(position).getTitle());
-
-                int movieID = mData.get(position).getMovieIDint();
-                startMovieActivity.putExtra("MovieID",movieID);
-
-               //Convert double to String and pass to the Activity as String
-               double averageRating = mData.get(position).getVoteAverage();
-               String DoubleToString = Double.toString(averageRating);
-               startMovieActivity.putExtra("MovieRating",DoubleToString);
-
-               startMovieActivity.putExtra("ReleasedDate",mData.get(position).getReleaseDate());
                startMovieActivity.putExtra("MovieSynopsis",mData.get(position).getOverview());
+               startMovieActivity.putExtra("MoviePoster",mData.get(position).getPosterPath());
+               startMovieActivity.putExtra("ReleasedDate",mData.get(position).getReleaseDate());
+               startMovieActivity.putExtra("MovieRating",mData.get(position).getMovieRating());
+               startMovieActivity.putExtra("MovieFlag",mData.get(position).getMovieFlag());
+               startMovieActivity.putExtra("IsChecked",mData.get(position).isChecked());
 
                mContext.startActivity(startMovieActivity);
            }
