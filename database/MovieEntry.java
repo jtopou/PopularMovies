@@ -12,10 +12,6 @@ public class MovieEntry {
     private String title,overview, posterPath,releaseDate,movieRating;
     private boolean isChecked;
     private int movieFlag;
-    private double voteAverage;
-
-//TODO remove this variable
-    private int movieIDint;
 
     //The MovieEntry Constructor
     public MovieEntry(@NonNull String movieID, String title, String overview, String posterPath, String releaseDate, String movieRating,int movieFlag,boolean isChecked) {
@@ -59,18 +55,6 @@ public class MovieEntry {
     }
     public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
-    }
-    public double getVoteAverage() {
-        return voteAverage;
-    }
-    public void setVoteAverage(double voteAverage) {
-        this.voteAverage = voteAverage;
-    }
-    public int getMovieIDint() {
-        return movieIDint;
-    }
-    public void setMovieIDint(int movieIDint) {
-        this.movieIDint = movieIDint;
     }
     public boolean isChecked() {
         return isChecked;
