@@ -8,29 +8,28 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 
-import com.example.android.popularmovies.NetworkUtils;
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.adapters.MainViewAdapter;
 import com.example.android.popularmovies.database.AppDatabase;
 import com.example.android.popularmovies.database.MovieEntry;
-import com.example.android.popularmovies.viewmodels.MoviesViewModel;
+import com.example.android.popularmovies.viewmodels.FavouriteMoviesViewModel;
 import com.example.android.popularmovies.viewmodels.SortByPopularViewModel;
+import com.example.android.popularmovies.viewmodels.SortByRatingViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-
-    MainViewAdapter recyclerViewAdapter;
-    List<MovieEntry> movieList = new ArrayList<>();
     AppDatabase mDb;
+    List<MovieEntry> movieList = new ArrayList<>();
+    RecyclerView recyclerView;
+    MainViewAdapter recyclerViewAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,11 +39,10 @@ public class MainActivity extends AppCompatActivity {
         mDb = AppDatabase.getInstance(getApplicationContext());
 
         //Setup the RecyclerView with the Adapter and the LayoutManager
-        RecyclerView recyclerView = findViewById(R.id.recyclerview_id);
+        recyclerView = findViewById(R.id.recyclerview_id);
 
         recyclerViewAdapter = new MainViewAdapter(this, movieList);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-
         recyclerView.setAdapter(recyclerViewAdapter);
 
         SortByPopularViewModel popularViewModel = new ViewModelProvider(this).get(SortByPopularViewModel.class);
@@ -57,15 +55,28 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void sortByRating() {
+        SortByRatingViewModel ratingViewModel = new ViewModelProvider(this).get(SortByRatingViewModel.class);
+        ratingViewModel.getMovies().observe(this, new Observer<List<MovieEntry>>() {
+            @Override
+            public void onChanged(List<MovieEntry> movieEntryList) {
+                recyclerViewAdapter.setMovies(movieEntryList);
+            }
+        });
 
     }
 
     public void sortByPopular() {
-
+        SortByPopularViewModel popularViewModel = new ViewModelProvider(this).get(SortByPopularViewModel.class);
+        popularViewModel.getMovies().observe(this, new Observer<List<MovieEntry>>() {
+            @Override
+            public void onChanged(List<MovieEntry> movieEntryList) {
+                recyclerViewAdapter.setMovies(movieEntryList);
+            }
+        });
     }
 
     private void showFavouriteMovies() {
-        MoviesViewModel model = new ViewModelProvider(this).get(MoviesViewModel.class);
+        FavouriteMoviesViewModel model = new ViewModelProvider(this).get(FavouriteMoviesViewModel.class);
         model.getMovies().observe(this, new Observer<List<MovieEntry>>() {
             @Override
             public void onChanged(List<MovieEntry> movieEntries) {
@@ -73,7 +84,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

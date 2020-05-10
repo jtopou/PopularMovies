@@ -32,7 +32,8 @@ public class MovieActivity extends AppCompatActivity {
 
     //Declare variables
     String moviePoster, movieTitle, releasedDate, movieRating, movieID, trailersLink,movieSynopsis;
-    int movieIDInt;
+    boolean isChecked;
+    int movieFlag;
 
     //Declare the Room database
     AppDatabase mDb;
@@ -41,6 +42,7 @@ public class MovieActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie);
+
         //Initialize the Views
         initViews();
         //Initialise the Database
@@ -49,42 +51,33 @@ public class MovieActivity extends AppCompatActivity {
         //Get the values from the incoming Intent
         Intent receivedIntent = getIntent();
         if (receivedIntent != null) {
-
-            moviePoster = receivedIntent.getExtras().getString("MoviePoster");
+            movieID = receivedIntent.getExtras().getString("MovieID");
             movieTitle = receivedIntent.getExtras().getString("MovieTitle");
+            movieSynopsis = receivedIntent.getExtras().getString("MovieSynopsis");
+            moviePoster = receivedIntent.getExtras().getString("MoviePoster");
             releasedDate = receivedIntent.getExtras().getString("ReleasedDate");
             movieRating = receivedIntent.getExtras().getString("MovieRating");
-            movieIDInt = receivedIntent.getExtras().getInt("MovieID");
-
-            movieID = Integer.toString(movieIDInt);
-
-            getTrailerLink(movieID);
-
-            movieSynopsis = receivedIntent.getExtras().getString("MovieSynopsis");
-
-            Glide.with(this)
-                    .load(moviePoster)
-                    .into(img);
-
-            txtMovieTitle.setText(movieTitle);
-            txtReleasedDate.setText(releasedDate);
-            txtMovieSynopsis.setText(movieSynopsis);
-            dbMovieAverage.setText(movieRating);
-
-            trailerButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (trailersLink != null) {
-                        Uri webpage = Uri.parse(trailersLink);
-                        Intent webIntent = new Intent(Intent.ACTION_VIEW, webpage);
-                        startActivity(webIntent);
-                    } else {
-                        Toast.makeText(mContext, "Sorry, there isn't an available trailer", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-
+            movieFlag = receivedIntent.getExtras().getInt("MovieFlag");
+            isChecked = receivedIntent.getExtras().getBoolean("IsChecked");
         }
+
+        getTrailerLink(movieID);
+
+        trailerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (trailersLink != null) {
+                    Uri webpage = Uri.parse(trailersLink);
+                    Intent webIntent = new Intent(Intent.ACTION_VIEW, webpage);
+                    startActivity(webIntent);
+                } else {
+                    Toast.makeText(mContext, "Sorry, there isn't an available trailer", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        setValuesToViews();
+
         //Setup the Reviews button to open the Reviews Activity
         reviewsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,17 +88,15 @@ public class MovieActivity extends AppCompatActivity {
             }
         });
 
-        //Setup the button to update the Database with the favourite movies
+         //Setup the button to update the Database with the favourite movies
      //TODO fix the favourite Button
-
        /* favouriteMovieButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            MovieEntry movieEntry = new MovieEntry(movieID,movieTitle,movieSynopsis,moviePoster,releasedDate,movieRating);
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    mDb.movieDao().insertMovie(movieEntry);
+               //     mDb.movieDao().insertMovie(movieEntry);
                 } else {
-                    mDb.movieDao().deleteMovie(movieEntry);
+               //     mDb.movieDao().deleteMovie(movieEntry);
                 }
             }
         });*/
@@ -120,6 +111,18 @@ public class MovieActivity extends AppCompatActivity {
         reviewsButton = findViewById(R.id.reviews_button);
         trailerButton = findViewById(R.id.trailers_button);
         favouriteMovieButton = findViewById(R.id.favourite_button);
+    }
+
+    private void setValuesToViews(){
+        Glide.with(this)
+                .load(moviePoster)
+                .into(img);
+
+        txtMovieTitle.setText(movieTitle);
+        txtReleasedDate.setText(releasedDate);
+        txtMovieSynopsis.setText(movieSynopsis);
+        dbMovieAverage.setText(movieRating);
+        favouriteMovieButton.setChecked(isChecked);
     }
 
     private String getTrailerLink(String movieID) {
