@@ -23,18 +23,15 @@ public interface MovieDao {
     @Query("SELECT * FROM Movie WHERE movieFlag = 1")
     LiveData<List<MovieEntry>> loadByRating();
 
-    @Query("SELECT * FROM Movie WHERE movieFlag = 2")
+    @Query("SELECT * FROM Movie WHERE isChecked = 'true'")
     LiveData<List<MovieEntry>> showFavourites();
 
-    @Update(onConflict = OnConflictStrategy.REPLACE)
-    void updateMovie(MovieEntry movieEntry);
+    @Query("UPDATE Movie SET isChecked = 'true' WHERE movieID = :idPassed")
+    void updateMovie(String idPassed);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertMovie(MovieEntry movieEntry);
 
-    @Delete
-    void deleteMovie(MovieEntry movieEntry);
-
-    /*@Query("SELECT * FROM Movie WHERE m = :id")
-    LiveData<MovieEntry> loadTaskById(int id);*/
+    @Query("UPDATE Movie SET isChecked = 'false' WHERE movieID = :idPassed")
+    void removeFromFavourites(String idPassed);
 }
