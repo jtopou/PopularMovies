@@ -16,7 +16,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 public class SortByPopularViewModel extends AndroidViewModel {
-    String SORT_BY_POPULAR = "http://api.themoviedb.org/3/movie/popular?api_key=";
+    String SORT_BY_POPULAR = "http://api.themoviedb.org/3/movie/popular?api_key=cbac1d3cf3ab1fd31121edfb08623cd1";
     LiveData<List<MovieEntry>> movies ;
     SortByPopularViewModel.MovieDbAsyncTask asyncTask = new SortByPopularViewModel.MovieDbAsyncTask();
 

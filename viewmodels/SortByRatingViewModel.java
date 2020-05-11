@@ -15,7 +15,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 public class SortByRatingViewModel extends AndroidViewModel {
-    String SORT_BY_TOP_RATING = "http://api.themoviedb.org/3/movie/top_rated?api_key=";
+    String SORT_BY_TOP_RATING = "http://api.themoviedb.org/3/movie/top_rated?api_key=cbac1d3cf3ab1fd31121edfb08623cd1";
     LiveData<List<MovieEntry>> movies;
     MovieDbAsyncTask asyncTask = new MovieDbAsyncTask();
 
