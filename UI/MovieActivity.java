@@ -1,12 +1,16 @@
 package com.example.android.popularmovies.UI;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -20,6 +24,11 @@ import com.example.android.popularmovies.NetworkUtils;
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.database.AppDatabase;
 import com.example.android.popularmovies.database.MovieEntry;
+import com.example.android.popularmovies.viewmodels.FavouriteMoviesViewModel;
+import com.example.android.popularmovies.viewmodels.SortByPopularViewModel;
+import com.example.android.popularmovies.viewmodels.SortByRatingViewModel;
+
+import java.util.List;
 
 public class MovieActivity extends AppCompatActivity {
     //Declare views variables
@@ -61,6 +70,10 @@ public class MovieActivity extends AppCompatActivity {
             isChecked = receivedIntent.getExtras().getBoolean("IsChecked");
         }
 
+        if (isChecked) {
+            favouriteMovieButton.setBackgroundResource(R.drawable.ic_favorite_black_24dp);
+        }
+
         getTrailerLink(movieID);
 
         trailerButton.setOnClickListener(new View.OnClickListener() {
@@ -90,16 +103,16 @@ public class MovieActivity extends AppCompatActivity {
 
          //Setup the button to update the Database with the favourite movies
      //TODO fix the favourite Button
-       /* favouriteMovieButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        favouriteMovieButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-               //     mDb.movieDao().insertMovie(movieEntry);
+                   mDb.movieDao().updateMovie(movieID);
                 } else {
-               //     mDb.movieDao().deleteMovie(movieEntry);
+                   mDb.movieDao().removeFromFavourites(movieID);
                 }
             }
-        });*/
+        });
     }
 
     private void initViews() {
@@ -156,5 +169,4 @@ public class MovieActivity extends AppCompatActivity {
 
         }
     }
-
 }

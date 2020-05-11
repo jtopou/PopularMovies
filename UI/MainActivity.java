@@ -1,6 +1,5 @@
 package com.example.android.popularmovies.UI;
 
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import androidx.lifecycle.Observer;
@@ -62,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
                 recyclerViewAdapter.setMovies(movieEntryList);
             }
         });
-
     }
 
     public void sortByPopular() {
