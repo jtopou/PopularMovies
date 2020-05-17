@@ -34,4 +34,7 @@ public interface MovieDao {
 
     @Query("UPDATE Movie SET isChecked = 'false' WHERE movieID = :idPassed")
     void removeFromFavourites(String idPassed);
+
+    @Query("SELECT * FROM Movie WHERE movieID = :movieID")
+    LiveData<MovieEntry> loadMovieById(String movieID);
 }
