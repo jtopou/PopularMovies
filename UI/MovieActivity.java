@@ -1,6 +1,7 @@
 package com.example.android.popularmovies.UI;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -9,8 +10,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -20,15 +19,12 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.bumptech.glide.Glide;
-import com.example.android.popularmovies.NetworkUtils;
+import com.example.android.popularmovies.Utils.NetworkUtils;
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.database.AppDatabase;
 import com.example.android.popularmovies.database.MovieEntry;
-import com.example.android.popularmovies.viewmodels.FavouriteMoviesViewModel;
-import com.example.android.popularmovies.viewmodels.SortByPopularViewModel;
-import com.example.android.popularmovies.viewmodels.SortByRatingViewModel;
-
-import java.util.List;
+import com.example.android.popularmovies.viewmodels.MovieDetailsViewModel;
+import com.example.android.popularmovies.viewmodels.MovieDetailsViewModelFactory;
 
 public class MovieActivity extends AppCompatActivity {
     //Declare views variables
@@ -40,9 +36,12 @@ public class MovieActivity extends AppCompatActivity {
     Context mContext = this;
 
     //Declare variables
-    String moviePoster, movieTitle, releasedDate, movieRating, movieID, trailersLink,movieSynopsis;
-    boolean isChecked;
-    int movieFlag;
+    static String  movieID, trailersLink;
+
+    //Getter for the movieID variable
+    public static String getMovieID() {
+        return movieID;
+    }
 
     //Declare the Room database
     AppDatabase mDb;
@@ -61,21 +60,19 @@ public class MovieActivity extends AppCompatActivity {
         Intent receivedIntent = getIntent();
         if (receivedIntent != null) {
             movieID = receivedIntent.getExtras().getString("MovieID");
-            movieTitle = receivedIntent.getExtras().getString("MovieTitle");
-            movieSynopsis = receivedIntent.getExtras().getString("MovieSynopsis");
-            moviePoster = receivedIntent.getExtras().getString("MoviePoster");
-            releasedDate = receivedIntent.getExtras().getString("ReleasedDate");
-            movieRating = receivedIntent.getExtras().getString("MovieRating");
-            movieFlag = receivedIntent.getExtras().getInt("MovieFlag");
-            isChecked = receivedIntent.getExtras().getBoolean("IsChecked");
-        }
 
-        if (isChecked) {
-            favouriteMovieButton.setBackgroundResource(R.drawable.ic_favorite_black_24dp);
+            MovieDetailsViewModelFactory factory = new MovieDetailsViewModelFactory(mDb, movieID);
+            final MovieDetailsViewModel viewModel = new ViewModelProvider( this,factory).get(MovieDetailsViewModel.class);
+            viewModel.getMovie().observe(this, new Observer<MovieEntry>() {
+                @Override
+                public void onChanged(MovieEntry movieEntry) {
+                    viewModel.getMovie().removeObserver(this);
+                    populateUI(movieEntry);
+                }
+            });
         }
 
         getTrailerLink(movieID);
-
         trailerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,17 +86,15 @@ public class MovieActivity extends AppCompatActivity {
             }
         });
 
-        setValuesToViews();
-
         //Setup the Reviews button to open the Reviews Activity
-        reviewsButton.setOnClickListener(new View.OnClickListener() {
+      /*  reviewsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent readReviews = new Intent(mContext, ReviewsActivity.class);
                 readReviews.putExtra("MovieID", movieID);
                 startActivity(readReviews);
             }
-        });
+        });*/
 
          //Setup the button to update the Database with the favourite movies
      //TODO fix the favourite Button
@@ -107,13 +102,16 @@ public class MovieActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                   mDb.movieDao().updateMovie(movieID);
+                 //   favouriteMovieButton.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_favorite_black_24dp));
+                    mDb.movieDao().updateMovie(movieID);
                 } else {
-                   mDb.movieDao().removeFromFavourites(movieID);
+                //    favouriteMovieButton.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_favorite_border_black_24dp));
+                    mDb.movieDao().removeFromFavourites(movieID);
                 }
             }
         });
     }
+
 
     private void initViews() {
         img = findViewById(R.id.img_movie_poster);
@@ -121,21 +119,29 @@ public class MovieActivity extends AppCompatActivity {
         txtReleasedDate = findViewById(R.id.txt_release_date);
         txtMovieSynopsis = findViewById(R.id.txt_plot_synopsis);
         dbMovieAverage = findViewById(R.id.txt_average_rating);
-        reviewsButton = findViewById(R.id.reviews_button);
+     //   reviewsButton = findViewById(R.id.reviews_button);
         trailerButton = findViewById(R.id.trailers_button);
         favouriteMovieButton = findViewById(R.id.favourite_button);
     }
 
-    private void setValuesToViews(){
+    private void populateUI(MovieEntry movie){
+        if (movie == null){
+            return;
+        }
+
         Glide.with(this)
-                .load(moviePoster)
+                .load(movie.getPosterPath())
                 .into(img);
 
-        txtMovieTitle.setText(movieTitle);
-        txtReleasedDate.setText(releasedDate);
-        txtMovieSynopsis.setText(movieSynopsis);
-        dbMovieAverage.setText(movieRating);
-        favouriteMovieButton.setChecked(isChecked);
+        txtMovieTitle.setText(movie.getTitle());
+        txtReleasedDate.setText(movie.getReleaseDate());
+        txtMovieSynopsis.setText(movie.getOverview());
+        dbMovieAverage.setText(movie.getMovieRating());
+        favouriteMovieButton.setChecked(movie.isChecked());
+
+        if (movie.isChecked()) {
+            favouriteMovieButton.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_favorite_black_24dp));
+        }
     }
 
     private String getTrailerLink(String movieID) {
