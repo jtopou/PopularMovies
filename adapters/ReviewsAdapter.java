@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.android.popularmovies.R;
-import com.example.android.popularmovies.Reviews;
+import com.example.android.popularmovies.database.ReviewsEntry;
 
 import java.util.List;
 
@@ -16,9 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewsViewHolder>{
     Context mContext;
-    List<Reviews> mData;
+    List<ReviewsEntry> mData;
 
-    public ReviewsAdapter(Context mContext, List<Reviews> mData) {
+    public ReviewsAdapter(Context mContext, List<ReviewsEntry> mData) {
         this.mContext = mContext;
         this.mData = mData;
     }
